@@ -36,11 +36,23 @@ class MovieMatchProvider extends ChangeNotifier {
     _receive = _stub.streamState(_send.stream);
 
     _receive.listen((msg) {
+      // Oma lisäys
+      List<String> parts = msg.user.split("|");
+
+      String otherUser = "";
+
+      for (String user in parts) {
+        if (user != userName) {
+          otherUser = user;
+          break;
+        }
+      }
+
       // Oma lisäys 18.4.2025
       bool containsUser = false;
 
       for (int i = 0; i < matchList.length; i++) {
-        if (matchList[i]["user"] == msg.user) {
+        if (matchList[i]["user"] == otherUser) {
           if (!matchList[i]["data"].contains(msg.data)) {
             matchList[i]["data"]?.add(msg.data);
           } 
@@ -51,7 +63,7 @@ class MovieMatchProvider extends ChangeNotifier {
 
       if (matchList.isEmpty || !containsUser) {
         matchList.add({
-          "user": msg.user,
+          "user": otherUser,
           "data": [msg.data]
         });
       }

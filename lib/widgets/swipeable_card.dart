@@ -15,7 +15,6 @@ class SwipeableCards extends StatefulWidget {
 
 class _SwipeableCardsState extends State<SwipeableCards> {
   Map<String, String>? _lastMatch;
-  int _currentIndex = 0;
   final CardSwiperController _controller = CardSwiperController();
 
   @override
@@ -25,47 +24,86 @@ class _SwipeableCardsState extends State<SwipeableCards> {
         (provider) => provider.match);
 
     if (_lastMatch != match && match.isNotEmpty) {
-      _lastMatch = Map.from(match);
+      List<String> parts = match["user"]!.split("|");
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("You got a match with:", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Text("${match['user']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Text("The matched movie is:", style: TextStyle(fontSize: 20), textAlign: TextAlign.center,),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
-                      child: Text("${match['data']}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.primary, shadowColor: Theme.of(context).colorScheme.shadow),
-                      onPressed: () {
-                        context.read<MovieMatchProvider>().notifyModalBottomSheet({});
-                        Navigator.pop(context);
-                      },
-                      child: Text("Close", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),),
-                    ),
-                  ],
+      String otherUser = "";
+
+      for (String user in parts) {
+        if (user != context.watch<MovieMatchProvider>().userName) {
+          otherUser = user;
+          break;
+        }
+      }
+
+      if (otherUser != context.watch<MovieMatchProvider>().userName) {
+        _lastMatch = Map.from(match);
+        print(
+            "///////////////////////////////////////// Marchin username ${otherUser} Oma username ${context.watch<MovieMatchProvider>().userName}");
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showModalBottomSheet(
+            context: context,
+            builder: (BuildContext context) {
+              return SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "You got a match with:",
+                        style: TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "${otherUser}",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          "The matched movie is:",
+                          style: TextStyle(fontSize: 20),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
+                        child: Text(
+                          "${match['data']}",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            shadowColor: Theme.of(context).colorScheme.shadow),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Close",
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.onPrimary),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      });
+              );
+            },
+          );
+        });
+      }
     }
 
     if (widget.movies.isEmpty) {
@@ -88,13 +126,8 @@ class _SwipeableCardsState extends State<SwipeableCards> {
             context.read<MovieMatchProvider>().send(movieTitle);
           }
 
-          setState(() {
-            _currentIndex = newIndex! + 1;
-          });
-
           return true;
         },
-        initialIndex: _currentIndex,
         isLoop: false,
         allowedSwipeDirection: AllowedSwipeDirection.only(
           left: true,
