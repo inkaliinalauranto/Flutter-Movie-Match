@@ -15,7 +15,7 @@ class MovieMatchProvider extends ChangeNotifier {
   late final StreamController<StateMessage> _send;
   late final ResponseStream<StateMessage> _receive;
   String userName = WordPair.random().join();
-  Map<String, String> match = {};
+  Map<String, String> parsedMatchMsg = {};
   List<Map<String, dynamic>> matchList = [];
 
   MovieMatchProvider() {
@@ -65,12 +65,12 @@ class MovieMatchProvider extends ChangeNotifier {
         });
       }
 
-      notifyModalBottomSheet({"user": msg.user, "data": msg.data});
+      notifyModalBottomSheet({otherUser: msg.data});
     });
   }
 
   void notifyModalBottomSheet(Map<String, String> match) {
-    this.match = match;
+    this.parsedMatchMsg = match;
     notifyListeners();
   }
 

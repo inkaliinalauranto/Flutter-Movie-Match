@@ -15,7 +15,7 @@ class SwipeableCards extends StatefulWidget {
 }
 
 class _SwipeableCardsState extends State<SwipeableCards> {
-  Map<String, String>? _lastMatchMessage;
+  Map<String, String>? _lastParsedMatchMsg;
   final CardSwiperController _controller = CardSwiperController();
 
   @override
@@ -23,23 +23,11 @@ class _SwipeableCardsState extends State<SwipeableCards> {
     MovieMatchProvider movieMatchProvider = context.watch<MovieMatchProvider>();
     // Alla oleva ratkaisu showModalBottomSheetin on saatu ChatGPT:ltä.
     // showModalBottomSheet-ratkaisun lähteet: https://www.youtube.com/watch?v=2hKSbiEcqoo
-    Map<String, String> matchMessage = movieMatchProvider.match;
+    Map<String, String> parsedMatchMsg = movieMatchProvider.parsedMatchMsg;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    if (_lastMatchMessage != matchMessage && matchMessage.isNotEmpty) {
-      List<String> userMessageParts = matchMessage["user"]!.split("|");
-
-      String? otherUser;
-
-      for (String user in userMessageParts) {
-        if (user != movieMatchProvider.userName) {
-          otherUser = user;
-          break;
-        }
-      }
-
-      if (otherUser != null && otherUser != movieMatchProvider.userName) {
-        _lastMatchMessage = Map.from(matchMessage);
+    if (_lastParsedMatchMsg != parsedMatchMsg && parsedMatchMsg.isNotEmpty) {
+        _lastParsedMatchMsg = Map.from(parsedMatchMsg);
         movieMatchProvider.notifyModalBottomSheet({});
 
         // https://saw2110.medium.com/understanding-flutters-addpostframecallback-a-practical-guide-b3d3133b6b85
@@ -62,7 +50,7 @@ class _SwipeableCardsState extends State<SwipeableCards> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          otherUser!,
+                          parsedMatchMsg.keys.first,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
@@ -79,7 +67,7 @@ class _SwipeableCardsState extends State<SwipeableCards> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "${_lastMatchMessage!['data']}",
+                          "${parsedMatchMsg[parsedMatchMsg.keys.first]}",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
@@ -104,7 +92,6 @@ class _SwipeableCardsState extends State<SwipeableCards> {
             },
           );
         });
-      }
     }
 
     if (widget.movies.isEmpty) {
