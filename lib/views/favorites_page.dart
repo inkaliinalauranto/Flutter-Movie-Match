@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/providers/moviematch.dart';
+import 'package:flutter_app/providers/movie_match_provider.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var movieMatchState = context.watch<MovieMatchProvider>();
+    MovieMatchProvider movieMatchState = context.watch<MovieMatchProvider>();
     final theme = Theme.of(context);
 
     if (movieMatchState.matchList.isEmpty) {
@@ -14,6 +14,7 @@ class FavoritesPage extends StatelessWidget {
       );
     }
 
+    // Oma lisäys, lähde Youtube-videosta: https://www.youtube.com/watch?v=yXnTBLSRd_o
     return ListView(padding: EdgeInsets.symmetric(horizontal: 10), children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(20, 60, 20, 10),

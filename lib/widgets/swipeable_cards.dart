@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/widgets/card_stack.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
 import '../models/movie.dart';
-import '../providers/moviematch.dart';
+import '../providers/movie_match_provider.dart';
 
 class SwipeableCards extends StatefulWidget {
   final List<Movie> movies;
@@ -14,32 +15,34 @@ class SwipeableCards extends StatefulWidget {
 }
 
 class _SwipeableCardsState extends State<SwipeableCards> {
-  Map<String, String>? _lastMatch;
+  Map<String, String>? _lastMatchMessage;
   final CardSwiperController _controller = CardSwiperController();
 
   @override
   Widget build(BuildContext context) {
-    // Alla oleva ratkaisu showModalBottomSheetin on saatu ChatGPT:ltä. Merkkaa showModalBottomSheet-ratkaisun lähteet.
-    var match = context.select<MovieMatchProvider, Map<String, String>>(
-        (provider) => provider.match);
+    MovieMatchProvider movieMatchProvider = context.watch<MovieMatchProvider>();
+    // Alla oleva ratkaisu showModalBottomSheetin on saatu ChatGPT:ltä.
+    // showModalBottomSheet-ratkaisun lähteet: https://www.youtube.com/watch?v=2hKSbiEcqoo
+    Map<String, String> matchMessage = movieMatchProvider.match;
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    if (_lastMatch != match && match.isNotEmpty) {
-      List<String> parts = match["user"]!.split("|");
+    if (_lastMatchMessage != matchMessage && matchMessage.isNotEmpty) {
+      List<String> userMessageParts = matchMessage["user"]!.split("|");
 
-      String otherUser = "";
+      String? otherUser;
 
-      for (String user in parts) {
-        if (user != context.watch<MovieMatchProvider>().userName) {
+      for (String user in userMessageParts) {
+        if (user != movieMatchProvider.userName) {
           otherUser = user;
           break;
         }
       }
 
-      if (otherUser != context.watch<MovieMatchProvider>().userName) {
-        _lastMatch = Map.from(match);
-        print(
-            "///////////////////////////////////////// Marchin username ${otherUser} Oma username ${context.watch<MovieMatchProvider>().userName}");
+      if (otherUser != null && otherUser != movieMatchProvider.userName) {
+        _lastMatchMessage = Map.from(matchMessage);
+        movieMatchProvider.notifyModalBottomSheet({});
 
+        // https://saw2110.medium.com/understanding-flutters-addpostframecallback-a-practical-guide-b3d3133b6b85
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showModalBottomSheet(
             context: context,
@@ -59,7 +62,7 @@ class _SwipeableCardsState extends State<SwipeableCards> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Text(
-                          "${otherUser}",
+                          otherUser!,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
@@ -76,7 +79,7 @@ class _SwipeableCardsState extends State<SwipeableCards> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 10, 0, 50),
                         child: Text(
-                          "${match['data']}",
+                          "${_lastMatchMessage!['data']}",
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
@@ -84,16 +87,14 @@ class _SwipeableCardsState extends State<SwipeableCards> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
-                            shadowColor: Theme.of(context).colorScheme.shadow),
+                            backgroundColor: colorScheme.primary,
+                            shadowColor: colorScheme.shadow),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         child: Text(
                           "Close",
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimary),
+                          style: TextStyle(color: colorScheme.onPrimary),
                         ),
                       ),
                     ],
@@ -110,30 +111,6 @@ class _SwipeableCardsState extends State<SwipeableCards> {
       return Text("No movies available");
     }
 
-    return Flexible(
-      child: CardSwiper(
-        controller: _controller,
-        cardBuilder: (context, index, thresholdX, thresholdY) {
-          final movie = widget.movies[index];
-          final fullImageUrl =
-              "https://image.tmdb.org/t/p/w500${movie.posterPath}";
-          return Center(child: Image.network(fullImageUrl));
-        },
-        cardsCount: widget.movies.length,
-        onSwipe: (oldIndex, newIndex, direction) {
-          if (direction == CardSwiperDirection.right) {
-            final movieTitle = widget.movies[oldIndex].originalTitle;
-            context.read<MovieMatchProvider>().send(movieTitle);
-          }
-
-          return true;
-        },
-        isLoop: false,
-        allowedSwipeDirection: AllowedSwipeDirection.only(
-          left: true,
-          right: true,
-        ),
-      ),
-    );
+    return CardStack(controller: _controller, widget: widget);
   }
 }

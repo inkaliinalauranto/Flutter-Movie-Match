@@ -1,7 +1,7 @@
 class Movie {
+  // Muuttujien nimeämisissä käytetään PascalCase-käytäntöä Flutterin 
+  // syntaksin mukaisesti: 
   final int id;
-  // Käytetään pascal styleä Flutterin syntaksn mukaisesti, vaikka JSON:ssa 
-  // sanojen erottelu tapahtuu alaviivalla: 
   final String originalTitle;
   final String posterPath;
   final DateTime releaseDate;
@@ -12,8 +12,13 @@ class Movie {
       required this.posterPath,
       required this.releaseDate});
 
-  // Nimetty rakentaja toteutetaan kaksoispisteen avulla:
-  // json on siis Map-tietotyyppiä, joka pitää sisällän avain-arvo-pareja:
+  // Nimetty rakentaja muodostetaan pistenotaation avulla siten, että 
+  // luokan jäsenmuuttujiin asetetaan arvot kaksoispisteen jälkeen alla 
+  // koodatun mukaisesti. 
+  //
+  // Huom! Map on tietotyyppi, joka sisältää avain-arvo-pareja. Jokainen 
+  // json-muuttujan avain on tietotyypiltään string ja avainten tietotyypit 
+  // voivat vaihdella: 
   Movie.fromJson(Map<String, dynamic> json)
       : id = json["id"],
         originalTitle = json["original_title"],

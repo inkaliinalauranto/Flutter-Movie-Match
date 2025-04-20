@@ -1,5 +1,3 @@
-// Koodi on haettu seuraavasta lähteestä: https://pastebin.com/x5sChMiL
-
 import 'dart:async';
 import 'dart:io';
 
@@ -8,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/moviematch.pbgrpc.dart';
 import 'package:grpc/grpc.dart';
 
-// MovieMatchClient pitäisi löytyä nyt generated-kansiossa
 
+// Koodi on haettu seuraavasta lähteestä: https://pastebin.com/x5sChMiL.
 // Luokasta puuttuu tällä hetkellä yhteyden poissiivoaminen:
 class MovieMatchProvider extends ChangeNotifier {
   late final ClientChannel _channel;
@@ -18,15 +16,14 @@ class MovieMatchProvider extends ChangeNotifier {
   late final ResponseStream<StateMessage> _receive;
   String userName = WordPair.random().join();
   Map<String, String> match = {};
-  // List<Map<String, dynamic>> matchList = [];
-  var matchList = [];
+  List<Map<String, dynamic>> matchList = [];
 
   MovieMatchProvider() {
     var isAndroid = Platform.isAndroid;
 
-    String baseUrl = isAndroid ? '10.0.2.2' : "localhost";
     // 10.0.2.2 on Android-emulaattorin proxy. Käytettäessä esimerkiksi
-    //Windows-sovellusta tai web-clientia, on tähän vaihdettava localhost:
+    // Windows-sovellusta tai web-clientia vaihdetaan urliksi localhost:
+    String baseUrl = isAndroid ? '10.0.2.2' : "localhost";
     _channel = ClientChannel(baseUrl,
         port: 50051,
         options: ChannelOptions(credentials: ChannelCredentials.insecure()));
@@ -69,9 +66,6 @@ class MovieMatchProvider extends ChangeNotifier {
       }
 
       notifyModalBottomSheet({"user": msg.user, "data": msg.data});
-      print("///////////////////////////Message: ${msg.data}");
-
-      print("////////////////////////////////Matches: $matchList");
     });
   }
 

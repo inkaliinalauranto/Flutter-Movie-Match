@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/main.dart';
 import 'package:flutter_app/providers/app_state.dart';
-import 'package:flutter_app/providers/moviematch.dart';
+import 'package:flutter_app/providers/movie_match_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:provider/provider.dart';
 
+// Koska käyttöliittymä on muuttunut, ei tämä testi enää toimi:
 void main() async {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 

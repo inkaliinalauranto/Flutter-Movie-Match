@@ -6,7 +6,7 @@ class TestWidget extends StatefulWidget {
 }
 
 class _TestWidgetState extends State<TestWidget> {
-  int number = 0;
+  int _number = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +15,17 @@ class _TestWidgetState extends State<TestWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(onPressed: () {setState(() {
-            number++;
-          });}, child: const Icon(Icons.add)),
-          SizedBox(width: 20.0,),
-          Text("$number")
+          ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _number++;
+                });
+              },
+              child: const Icon(Icons.add)),
+          SizedBox(
+            width: 20.0,
+          ),
+          Text("$_number")
         ],
       ),
     );
