@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/app_state.dart';
-import 'package:flutter_app/widgets/swipeable_cards.dart';
+import 'package:flutter_app/widgets/card_stack_page.dart';
 import 'package:provider/provider.dart';
 
 class GeneratorPage extends StatelessWidget {
@@ -25,7 +25,7 @@ class GeneratorPage extends StatelessWidget {
                   snapshot.hasData) {
                 return Column(
                   children: [
-                    Expanded(child: SwipeableCards(snapshot.data!)),
+                    Expanded(child: CardStackPage(movies: snapshot.data!)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

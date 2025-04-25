@@ -1,42 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/models/movie.dart';
 import 'package:flutter_app/providers/movie_match_provider.dart';
-import 'package:flutter_app/widgets/swipeable_cards.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
 
-class CardStack extends StatelessWidget {
+class CardStack extends StatefulWidget {
   const CardStack({
     super.key,
-    required CardSwiperController controller,
-    required this.widget,
-  }) : _controller = controller;
+    required this.movieList,
+  });
 
-  final CardSwiperController _controller;
-  final SwipeableCards widget;
+  final List<Movie> movieList;
+
+  @override
+  State<CardStack> createState() => _CardStackState();
+}
+
+class _CardStackState extends State<CardStack> {
+  final CardSwiperController _controller = CardSwiperController();
 
   @override
   Widget build(BuildContext context) {
+    MovieMatchProvider movieMatchProviderR = context.read<MovieMatchProvider>();
     // Otettu pois Flexible-widgetin sisältä, jotta tämä saadaan palautettua 
     // palautettua Expanded-widgetistä, joka palautetaan Column-widgetistä. 
     // Ratkaisuun apua saatu ChatGPT:ltä.
     return CardSwiper(
       controller: _controller,
       cardBuilder: (context, index, thresholdX, thresholdY) {
-        final movie = widget.movies[index];
+        final movie = widget.movieList[index];
         final fullImageUrl =
             "https://image.tmdb.org/t/p/w500${movie.posterPath}";
         return Center(child: Image.network(fullImageUrl));
       },
-      cardsCount: widget.movies.length,
+      cardsCount: widget.movieList.length,
       onSwipe: (oldIndex, newIndex, direction) {
         if (direction == CardSwiperDirection.right) {
-          final movieTitle = widget.movies[oldIndex].originalTitle;
-          context.read<MovieMatchProvider>().send(movieTitle);
+          final movieTitle = widget.movieList[oldIndex].originalTitle;
+          movieMatchProviderR.send(movieTitle);
         }
     
         return true;
       },
-      isLoop: false,
+      isLoop: true,
       allowedSwipeDirection: AllowedSwipeDirection.only(
         left: true,
         right: true,

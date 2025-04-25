@@ -35,9 +35,9 @@ class CustomNavigationRail extends StatelessWidget {
                 NavigationRailDestination(
                   icon: GestureDetector(
                     child: Icon(Icons.favorite_border),
-                    onTap: () => {context.go("/favorites")},
+                    onTap: () => {context.go("/matches")},
                   ),
-                  label: Text('Favorites'),
+                  label: Text('Matches'),
                 ),
               ],
               selectedIndex: null,

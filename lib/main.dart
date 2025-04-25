@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/app_state.dart';
 import 'package:flutter_app/providers/movie_match_provider.dart';
-import 'package:flutter_app/views/favorites_page.dart';
+import 'package:flutter_app/views/match_page.dart';
 import 'package:flutter_app/views/generator_page.dart';
 import 'package:flutter_app/views/my_home_page.dart';
 import 'package:flutter_app/views/start_page.dart';
@@ -40,10 +40,10 @@ class MyApp extends StatelessWidget {
           },
         ),
         GoRoute(
-            path: "/favorites",
+            path: "/matches",
             builder: (context, state) {
               return MyHomePage(
-                child: FavoritesPage(),
+                child: MatchPage(),
               );
             }),
         GoRoute(

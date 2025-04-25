@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/providers/movie_match_provider.dart';
 import 'package:provider/provider.dart';
 
-class FavoritesPage extends StatelessWidget {
+class MatchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MovieMatchProvider movieMatchState = context.watch<MovieMatchProvider>();

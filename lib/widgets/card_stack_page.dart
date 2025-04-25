@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/widgets/card_stack.dart';
-import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:provider/provider.dart';
 import '../models/movie.dart';
 import '../providers/movie_match_provider.dart';
 
-class SwipeableCards extends StatefulWidget {
+class CardStackPage extends StatefulWidget {
   final List<Movie> movies;
 
-  const SwipeableCards(this.movies, {super.key});
+  const CardStackPage({required this.movies, super.key});
 
   @override
-  State<SwipeableCards> createState() => _SwipeableCardsState();
+  State<CardStackPage> createState() => _CardStackPageState();
 }
 
-class _SwipeableCardsState extends State<SwipeableCards> {
+class _CardStackPageState extends State<CardStackPage> {
   Map<String, String>? _lastParsedMatchMsg;
-  final CardSwiperController _controller = CardSwiperController();
 
   @override
   Widget build(BuildContext context) {
     MovieMatchProvider movieMatchProvider = context.watch<MovieMatchProvider>();
-    // Alla oleva ratkaisu showModalBottomSheetin on saatu ChatGPT:ltä.
-    // showModalBottomSheet-ratkaisun lähteet: https://www.youtube.com/watch?v=2hKSbiEcqoo
+    // Alla oleva ratkaisu showModalBottomSheetin reaaliaikaisesta 
+    // näyttämisestä WidgetsBinding-luokkaa hyödyntämällä on saatu ChatGPT:ltä.
+    // Varsinaisen showModalBottomSheet-ratkaisun lähde: 
+    // https://www.youtube.com/watch?v=2hKSbiEcqoo
     Map<String, String> parsedMatchMsg = movieMatchProvider.parsedMatchMsg;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
@@ -98,6 +98,6 @@ class _SwipeableCardsState extends State<SwipeableCards> {
       return Text("No movies available");
     }
 
-    return CardStack(controller: _controller, widget: widget);
+    return CardStack(movieList: widget.movies);
   }
 }

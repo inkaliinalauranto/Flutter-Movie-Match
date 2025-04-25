@@ -47,9 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: GestureDetector(
                     key: const ValueKey("favoritesbutton"),
                     child: Icon(Icons.favorite_outline),
-                    onTap: () => {context.go("/favorites")},
+                    onTap: () => {context.go("/matches")},
                   ),
-                  label: 'Favorites',
+                  label: 'Matches',
                 ),
               ],),
       );
