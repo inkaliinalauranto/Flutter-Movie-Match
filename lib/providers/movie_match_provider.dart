@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/moviematch.pbgrpc.dart';
 import 'package:grpc/grpc.dart';
 
-
 // Koodi on haettu seuraavasta lähteestä: https://pastebin.com/x5sChMiL.
 // Luokasta puuttuu tällä hetkellä yhteyden poissiivoaminen:
 class MovieMatchProvider extends ChangeNotifier {
@@ -14,8 +13,8 @@ class MovieMatchProvider extends ChangeNotifier {
   late final MovieMatchClient _stub;
   late final StreamController<StateMessage> _send;
   late final ResponseStream<StateMessage> _receive;
-  String userName = WordPair.random().join();
-  Map<String, String> parsedMatchMsg = {};
+  String _username = WordPair.random().join();
+  Map<String, String> _parsedMatchMsg = {};
   List<Map<String, dynamic>> matchList = [];
 
   MovieMatchProvider() {
@@ -39,7 +38,7 @@ class MovieMatchProvider extends ChangeNotifier {
       String otherUser = "";
 
       for (String user in parts) {
-        if (user != userName) {
+        if (user != _username) {
           otherUser = user;
           break;
         }
@@ -52,7 +51,7 @@ class MovieMatchProvider extends ChangeNotifier {
         if (matchList[i]["user"] == otherUser) {
           if (!matchList[i]["data"].contains(msg.data)) {
             matchList[i]["data"]?.add(msg.data);
-          } 
+          }
           containsUser = true;
           break;
         }
@@ -65,24 +64,32 @@ class MovieMatchProvider extends ChangeNotifier {
         });
       }
 
-      notifyModalBottomSheet({otherUser: msg.data});
+      setParsedMatchMsg({otherUser: msg.data});
     });
   }
 
-  void notifyModalBottomSheet(Map<String, String> match) {
-    this.parsedMatchMsg = match;
+  Map<String, String> getParsedMatchMsg() {
+    return _parsedMatchMsg;
+  }
+
+  void setParsedMatchMsg(Map<String, String> match) {
+    _parsedMatchMsg = match;
     notifyListeners();
   }
 
-  void setUserName(String name) {
-    userName = name;
+  String getUsername() {
+    return _username;
+  }
+
+  void setUsername(String name) {
+    _username = name;
     notifyListeners();
   }
 
   void send(movieName) {
     var msg = StateMessage()
       ..data = movieName
-      ..user = userName;
+      ..user = _username;
 
     _send.add(msg);
   }

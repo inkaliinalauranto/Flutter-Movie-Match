@@ -39,10 +39,10 @@ class MatchPage extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              for (var mov in movies)
+              for (var movie in movies)
                 ListTile(
                   leading: Icon(Icons.favorite),
-                  title: Text(mov),
+                  title: Text(movie),
                 )
             ]),
           );

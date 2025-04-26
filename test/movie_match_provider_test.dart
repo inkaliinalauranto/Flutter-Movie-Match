@@ -6,17 +6,17 @@ void main() {
     test("Should be Muumipeikko", () {
       final MovieMatchProvider movieMatchProvider = MovieMatchProvider();
 
-      movieMatchProvider.setUserName("Muumipeikko");
+      movieMatchProvider.setUsername("Muumipeikko");
 
-      expect(movieMatchProvider.userName, "Muumipeikko");
+      expect(movieMatchProvider.getUsername(), "Muumipeikko");
     });
 
     test("Should be Nuuskamuikkunen", () {
       final MovieMatchProvider movieMatchProvider = MovieMatchProvider();
 
-      movieMatchProvider.setUserName("Nuuskamuikkunen");
+      movieMatchProvider.setUsername("Nuuskamuikkunen");
 
-      expect(movieMatchProvider.userName, "Nuuskamuikkunen");
+      expect(movieMatchProvider.getUsername(), "Nuuskamuikkunen");
     });
   });
 }

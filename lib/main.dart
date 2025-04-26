@@ -3,7 +3,7 @@ import 'package:flutter_app/providers/app_state.dart';
 import 'package:flutter_app/providers/movie_match_provider.dart';
 import 'package:flutter_app/views/match_page.dart';
 import 'package:flutter_app/views/generator_page.dart';
-import 'package:flutter_app/views/my_home_page.dart';
+import 'package:flutter_app/widgets/my_home_page.dart';
 import 'package:flutter_app/views/start_page.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';

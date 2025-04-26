@@ -5,9 +5,9 @@ import '../models/movie.dart';
 import '../providers/movie_match_provider.dart';
 
 class CardStackPage extends StatefulWidget {
-  final List<Movie> movies;
+  final List<Movie> movieList;
 
-  const CardStackPage({required this.movies, super.key});
+  const CardStackPage({required this.movieList, super.key});
 
   @override
   State<CardStackPage> createState() => _CardStackPageState();
@@ -23,12 +23,12 @@ class _CardStackPageState extends State<CardStackPage> {
     // näyttämisestä WidgetsBinding-luokkaa hyödyntämällä on saatu ChatGPT:ltä.
     // Varsinaisen showModalBottomSheet-ratkaisun lähde: 
     // https://www.youtube.com/watch?v=2hKSbiEcqoo
-    Map<String, String> parsedMatchMsg = movieMatchProvider.parsedMatchMsg;
+    Map<String, String> parsedMatchMsg = movieMatchProvider.getParsedMatchMsg();
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     if (_lastParsedMatchMsg != parsedMatchMsg && parsedMatchMsg.isNotEmpty) {
         _lastParsedMatchMsg = Map.from(parsedMatchMsg);
-        movieMatchProvider.notifyModalBottomSheet({});
+        movieMatchProvider.setParsedMatchMsg({});
 
         // https://saw2110.medium.com/understanding-flutters-addpostframecallback-a-practical-guide-b3d3133b6b85
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -94,10 +94,10 @@ class _CardStackPageState extends State<CardStackPage> {
         });
     }
 
-    if (widget.movies.isEmpty) {
+    if (widget.movieList.isEmpty) {
       return Text("No movies available");
     }
 
-    return CardStack(movieList: widget.movies);
+    return CardStack(movieList: widget.movieList);
   }
 }

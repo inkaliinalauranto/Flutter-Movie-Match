@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/views/my_home_page.dart';
+import 'package:flutter_app/widgets/my_home_page.dart';
 import 'package:go_router/go_router.dart';
 
 class CustomNavigationRail extends StatelessWidget {

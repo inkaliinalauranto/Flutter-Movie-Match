@@ -25,7 +25,7 @@ class GeneratorPage extends StatelessWidget {
                   snapshot.hasData) {
                 return Column(
                   children: [
-                    Expanded(child: CardStackPage(movies: snapshot.data!)),
+                    Expanded(child: CardStackPage(movieList: snapshot.data!)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
