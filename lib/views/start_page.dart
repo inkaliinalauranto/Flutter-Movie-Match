@@ -12,7 +12,7 @@ class _StartPageState extends State<StartPage> {
   final TextEditingController controller = TextEditingController();
   bool isDisabled = true;
 
-  void setIsEnabled() {
+  void setIsDisabled() {
     setState(() {
       if (controller.text.trim().isEmpty) {
         isDisabled = true;
@@ -25,7 +25,7 @@ class _StartPageState extends State<StartPage> {
   @override
   void initState() {
     super.initState();
-    controller.addListener(setIsEnabled);
+    controller.addListener(setIsDisabled);
   }
 
   @override
@@ -47,25 +47,28 @@ class _StartPageState extends State<StartPage> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              child: Text("Your current username:", style: TextStyle(fontSize: 18)),
+              child: Text("Your current username:",
+                  style: TextStyle(fontSize: 18)),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 0, 50),
               child: Text(movieMatch.getUsername(),
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
-            TextFormField(controller: controller, decoration: const InputDecoration(hintText: "Enter a new username if desired"),),
+            TextFormField(
+              controller: controller,
+              decoration: const InputDecoration(
+                  hintText: "Enter a new username if desired"),
+            ),
             Padding(
               padding: const EdgeInsets.only(top: 24),
               child: ElevatedButton(
-                onPressed: isDisabled ? null : () {
-                  if (controller.text == "") {
-                    movieMatch.setUsername(WordPair.random().join());
-                  } else {
-                    movieMatch.setUsername(controller.text);
-                    controller.text = "";
-                  }
-                },
+                onPressed: isDisabled
+                    ? null
+                    : () {
+                        movieMatch.setUsername(controller.text);
+                        controller.text = "";
+                      },
                 child: Text("Change"),
               ),
             )

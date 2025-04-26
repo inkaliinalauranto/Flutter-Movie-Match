@@ -44,7 +44,6 @@ class MovieMatchProvider extends ChangeNotifier {
         }
       }
 
-      // Oma lisäys 18.4.2025
       bool containsUser = false;
 
       for (int i = 0; i < matchList.length; i++) {

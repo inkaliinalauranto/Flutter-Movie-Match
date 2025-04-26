@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 BottomNavigationBarItem(
                   icon: GestureDetector(
-                    key: const ValueKey("favoritesbutton"),
+                    key: const ValueKey("matchesbutton"),
                     child: Icon(Icons.favorite_outline),
                     onTap: () => {context.go("/matches")},
                   ),

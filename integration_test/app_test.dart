@@ -20,7 +20,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => MovieMatchProvider())
       ], child: const MyApp()));
 
-      final favoritesButton = find.byKey(const ValueKey("favoritesbutton"));
+      final favoritesButton = find.byKey(const ValueKey("matchesbutton"));
       await tester.tap(favoritesButton);
       await tester.pumpAndSettle();
       expect(find.text("No matches yet."), findsOneWidget);
