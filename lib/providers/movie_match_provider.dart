@@ -63,7 +63,8 @@ class MovieMatchProvider extends ChangeNotifier {
         });
       }
 
-      setParsedMatchMsg({otherUser: msg.data});
+      _parsedMatchMsg = {otherUser: msg.data};
+      notifyListeners();
     });
   }
 
@@ -73,7 +74,6 @@ class MovieMatchProvider extends ChangeNotifier {
 
   void setParsedMatchMsg(Map<String, String> match) {
     _parsedMatchMsg = match;
-    notifyListeners();
   }
 
   String getUsername() {

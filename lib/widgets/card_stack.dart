@@ -22,9 +22,9 @@ class _CardStackState extends State<CardStack> {
   @override
   Widget build(BuildContext context) {
     MovieMatchProvider movieMatchProviderR = context.read<MovieMatchProvider>();
-    // Otettu pois Flexible-widgetin sisältä, jotta tämä saadaan palautettua 
-    // palautettua Expanded-widgetistä, joka palautetaan Column-widgetistä. 
-    // Ratkaisuun apua saatu ChatGPT:ltä.
+    // Widgettipuun päätasolta poistettu Flexible-widgetti, jotta tämä 
+    // widgetti saadaan palautettua Expanded-widgetistä, joka edelleen 
+    // palautetaan Column-widgetistä. Ratkaisuun apua saatu ChatGPT:ltä.
     return CardSwiper(
       controller: _controller,
       cardBuilder: (context, index, thresholdX, thresholdY) {

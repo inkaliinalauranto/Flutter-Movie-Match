@@ -14,7 +14,7 @@ class MatchPage extends StatelessWidget {
       );
     }
 
-    // Oma lisäys, lähde Youtube-videosta: https://www.youtube.com/watch?v=yXnTBLSRd_o
+    // Lähde Youtube-videosta: https://www.youtube.com/watch?v=yXnTBLSRd_o
     return ListView(padding: EdgeInsets.symmetric(horizontal: 10), children: [
       Padding(
         padding: const EdgeInsets.fromLTRB(20, 60, 20, 10),
