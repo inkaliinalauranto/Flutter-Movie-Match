@@ -1,6 +1,6 @@
 # Movie Match -Flutter-sovellus
 
-Cross-Platform Mobile Application Development -opintojakson tehtävä, joka vaatii taustalle [gRPC-palvelinohjelman] pienin muokkauksin. Muokkaukset on tehtävä lib/moviematch_server.dart-tiedostossa olevan MovieMatchService-luokan streamState-metodin request-parametrin listen-metodikutsun parametrina olevan callback-funktion toteutusosan for-silmukkaan. Silmukan ehtolauseen toteutusosasassa olevan matchMessage-muuttujan on oltava kuvan 1 mukainen.
+Cross-Platform Mobile Application Development -opintojakson tehtävä, joka vaatii taustalle [gRPC-palvelinohjelman](https://github.com/MatiasHiltunen/moviematch_server/blob/main/lib/moviematch_server.dart) pienin muokkauksin. Muokkaukset on tehtävä lib/moviematch_server.dart-tiedostossa olevan MovieMatchService-luokan streamState-metodin request-parametrin listen-metodikutsun parametrina olevan callback-funktion toteutusosan for-silmukkaan. Silmukan ehtolauseen toteutusosasassa olevan matchMessage-muuttujan on oltava kuvan 1 mukainen.
 
 ![Kuva 1](images/matchMessage.png)
 
