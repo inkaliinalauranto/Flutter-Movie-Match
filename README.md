@@ -1,16 +1,31 @@
-# flutter_app
+# Movie Match -Flutter-sovellus
 
-A new Flutter project.
+Cross-Platform Mobile Application Development -opintojakson tehtävä, joka vaatii taustalle [gRPC-palvelinohjelman] pienin muokkauksin. Muokkaukset on tehtävä lib/moviematch_server.dart-tiedostossa olevan MovieMatchService-luokan streamState-metodin request-parametrin listen-metodikutsun parametrina olevan callback-funktion toteutusosan for-silmukkaan. Silmukan ehtolauseen toteutusosasassa olevan matchMessage-muuttujan on oltava kuvan 1 mukainen.
 
-## Getting Started
+![Kuva 1](images/matchMessage.png)
 
-This project is a starting point for a Flutter application.
+## Sovellus
 
-A few resources to get you started if this is your first Flutter project:
+Aloitusnäkymä, jossa käyttäjänimi on mahdollista vaihtaa:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![Kuva aloitusnäkymästä](images/StartPage.png)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Elokuvien selausnäkymä:
+
+![Kuva elokuvien selausnäkymästä](images/GeneratorPage.png)
+
+Kun vähintään kaksi eri käyttäjää on tykännyt samasta elokuvasta, ilmoittaa sovellus tästä ponnahtavan modaalisivun avulla:
+
+![Kuva modaali-ikkunasta](images/Modal.png)
+
+Näkymä, jossa voi vastapuolikohtaisesti tarkastella elokuvia, joista on yhteisesti tykätty:
+
+![Kuva näkymästä, jossa on lueteltu yhteiset tykkäykset](images/MatchPage.png)
+
+## Arkkitehtuuri
+
+![Havainnekuva sovelluksen arkkitehtuurista](images/Architecture.png)
+
+## Puutteet
+- Sovelluksen käyttöliittymä ei vielä skaaladu vaakatasoon
+- Sovellus ei toimi tällä hetkellä selainpohjaisesti
