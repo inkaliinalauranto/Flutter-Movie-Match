@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/providers/app_state.dart';
 import 'package:flutter_app/providers/movie_match_provider.dart';
 import 'package:flutter_app/views/match_page.dart';
@@ -12,6 +13,10 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   // Annetaan tiedostonimi nimettynä parametrina:
   await dotenv.load(fileName: '.env');
+  // Disabloidaan vaakatasokäyttöliittymä.
+  // Lähde: https://www.geeksforgeeks.org/restrict-landscape-mode-in-flutter/
+  WidgetsFlutterBinding.ensureInitialized;
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // runApp(MyApp());
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => MyAppState()),
